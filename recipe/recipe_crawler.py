@@ -28,7 +28,7 @@ def fetch_recipes():
         all_recipes = []
 
         for ingredient in ingredients:
-            for page in range(1, 2):  # 假設只爬取每個食材的前一頁
+            for page in range(1, 1):  # 假設只爬取每個食材的前一頁
                 res = requests.get(url=base_url.format(ingredient, page), headers=headers)
                 soup = BeautifulSoup(res.content, 'html.parser')
                 recipes_obj = soup.select('li[class="browse-recipe-item"]')
