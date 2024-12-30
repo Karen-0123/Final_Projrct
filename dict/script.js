@@ -71,9 +71,6 @@ function loadFood() {
         '冷凍': []
     };
 
-    // 從 Local Storage 讀取購物清單
-    const shoppingItems = JSON.parse(localStorage.getItem('shoppingList')) || [];
-
     // 从 Local Storage 获取数据并按类别分类
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -92,6 +89,10 @@ function loadFood() {
                 console.warn(`無效的 food 資料:`, food);
             }
         }
+        // if (key.startsWith('food-')) {
+        //     const food = JSON.parse(localStorage.getItem(key));
+        //     categories[food.category].push(food); // 根据分类将食材加入相应的类别数组
+        // }
     }
 
     // 统计即将过期的食材数量
@@ -113,7 +114,7 @@ function loadFood() {
     // 创建分类区域
     Object.keys(categories).forEach(category => {
         const categoryDiv = document.createElement('div');
-        categoryDiv.classList.add('table');
+        categoryDiv.classList.add('category-section');
         
         const categoryHeader = document.createElement('h3');
         categoryHeader.textContent = category;
@@ -321,25 +322,23 @@ function loadShoppingList() {
             </tr>
         `;
 
-        const tbody = table.querySelector('tbody'); // 獲取 tbody
-
         shoppingItems.forEach((item, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${item.name}</td>
                 <td>${item.quantity}</td>
             `;
-            
+
             // 刪除按鈕
             const actionCell = document.createElement('td');
             const deleteButton = document.createElement('button');
             deleteButton.textContent = '刪除';
-            deleteButton.classList.add('delete-button'); // 使用更有語意的 class 名稱
             deleteButton.onclick = () => deleteShoppingItem(index); // 刪除購物清單項目
 
             actionCell.appendChild(deleteButton);
             row.appendChild(actionCell);
-            tbody.appendChild(row); // 將行添加到 tbody 中
+
+            table.appendChild(row);
         });
 
         shoppingListDiv.appendChild(table);
@@ -347,6 +346,7 @@ function loadShoppingList() {
         shoppingListDiv.textContent = '目前沒有任何購物清單項目。';
     }
 }
+
 
 // 刪除購物清單項目
 function deleteShoppingItem(index) {

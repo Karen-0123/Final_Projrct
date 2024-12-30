@@ -192,17 +192,17 @@ th:nth-child(3) { width: 120px; } /* 第三欄固定120px */
 th:nth-child(4) { width: 100px; } /* 第四欄固定100px */
 th:nth-child(5) { width: 50px; }  /* 第五欄固定80px */
 
-.table th, .table td {
+.category-section th, .category-section td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
-.table th {
+.category-section th {
     background-color: #f4f4f4;
 }
 
-.table td button {
+.table-container td button {
     background-color: #ff6f61;
     color: white;
     border: none;
@@ -211,7 +211,7 @@ th:nth-child(5) { width: 50px; }  /* 第五欄固定80px */
     cursor: pointer;
 }
 
-.table td button:hover {
+.table-container button:hover {
     background-color: #ff4b3a;
 }
 
