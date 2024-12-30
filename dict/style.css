@@ -109,39 +109,31 @@ nav a:hover {
     border-radius: 10px;
 }
 
-/* 讓彈出框顯示在頁面中央 */
-.popup-box {
-    display: none; /* 預設不顯示 */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 160px;
-    background-color: #fff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    padding: 20px;
-    border-radius: 10px;
-}
-
 /* 彈出框內部內容 */
 .popup-content {
     text-align: center;
 }
 
-#showBoxButton {
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttons-container {
     height: 50px;
     width: 50px;
-    background-color: #576CA8;
+    background-color: #3353ac;
     color: white;
     border: none;
     border-radius: 100px;
     cursor: pointer;
     margin-top: 20px;
+    display: flex;
+    gap: 10px;
 }
 
-#showBoxButton:hover {
+#buttons-container:hover {
     background-color: #576CA8;
 }
 
@@ -155,7 +147,7 @@ nav a:hover {
     margin-top: 20px;
 }
 
-#addButton, #closeButton:hover {
+#closeCartButton, #addCartButton, #addButton, #closeButton:hover {
     background-color: #576CA8;
 }
 
