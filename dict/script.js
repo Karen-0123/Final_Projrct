@@ -26,8 +26,11 @@ function showPage(page) {
 // 彈出框功能
 // 獲取按鈕和彈出框元素
 const showBoxButton = document.getElementById('showBoxButton');
+const showCartButton = document.getElementById('showCartButton');
 const popupBox = document.getElementById('popupBox');
+const cartPopupBox = document.getElementById('cartPopupBox');
 const closeButton = document.getElementById('closeButton');
+const closeCartButton = document.getElementById('closeCartButton');
 
 // 顯示彈出框
 showBoxButton.addEventListener('click', () => {
@@ -38,6 +41,16 @@ showBoxButton.addEventListener('click', () => {
 closeButton.addEventListener('click', () => {
     popupBox.style.display = 'none';
 });
+
+// 顯示購物車彈出框
+showCartButton.addEventListener('click', () => {
+    cartPopupBox.style.display = 'block';
+});
+
+// 關閉購物車彈出框
+closeCartButton.addEventListener('click', () => {
+    cartPopupBox.style.display = 'none';
+});
 //------------------------------------------------------
 //food.js
 // 編輯冰箱內食材
@@ -47,9 +60,11 @@ const categoryVisibility = {};
 // 加载食材并保留分类状态，同时添加过期提醒
 function loadFood() {
     const displayDiv = document.getElementById('ingredient-table');
+    const shoppingList = document.getElementById('shoppingList');
     const warningDiv = document.querySelector('.warning');
     displayDiv.innerHTML = ''; // 清空旧内容
     warningDiv.innerHTML = ''; // 清空警告信息
+    shoppingList.innerHTML = '';
 
     // 用来分类食材的容器
     const categories = {
@@ -234,15 +249,6 @@ function addIngredient() {
     .catch(error => console.error('錯誤:', error));
 }
 
-// 刪除對應的食材並更新表格
-function deleteIngredient(key) {
-    const food = JSON.parse(localStorage.getItem(key));
-    if (confirm(`確定要刪除「${food.name}」嗎？`)) {
-        localStorage.removeItem(key); // 从 localStorage 删除
-        loadFood(); // 更新表格
-    }
-}
-
 function deleteIngredient(key) {
     const foodData = localStorage.getItem(key);
 
@@ -265,6 +271,24 @@ function deleteIngredient(key) {
     }
 }
 
+function addToCart() {
+    const name = document.getElementById('cartName').value;
+    const quantity = document.getElementById('cartQuantity').value;
+
+    if (name && quantity) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${name} (${quantity})`;
+        shoppingList.appendChild(listItem);
+
+        // 清空輸入框
+        document.getElementById('cartName').value = '';
+        document.getElementById('cartQuantity').value = '';
+
+        cartPopupBox.style.display = 'none'; // 關閉彈出框
+    } else {
+        alert('請填寫所有欄位');
+    }
+}
 //--------------------------------------------------------
 //recipes.js //功能和fetchRecipes重複
 // function loadRecipes() {
