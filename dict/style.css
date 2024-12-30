@@ -120,6 +120,14 @@ button {
     cursor: pointer;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    gap: 20px; /* 按鈕間距 */
+    margin-top: 20px; /* 與列表間距 */
+    margin-bottom: 20px; /* 與購買清單間距 */
+}
+
 #showBoxButton, #showCartButton {
     height: 50px;
     width: 50px;
@@ -128,9 +136,6 @@ button {
     border: none;
     border-radius: 100px;
     cursor: pointer;
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
 }
 
 #buttons-container:hover {
