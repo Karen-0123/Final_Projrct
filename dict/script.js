@@ -60,11 +60,9 @@ const categoryVisibility = {};
 // 加载食材并保留分类状态，同时添加过期提醒
 function loadFood() {
     const displayDiv = document.getElementById('ingredient-table');
-    const shoppingListDiv = document.getElementById('shoppingList');
     const warningDiv = document.querySelector('.warning');
     displayDiv.innerHTML = ''; // 清空旧内容
     warningDiv.innerHTML = ''; // 清空警告信息
-    shoppingListDiv.innerHTML = '';
 
     // 用来分类食材的容器
     const categories = {
@@ -115,7 +113,7 @@ function loadFood() {
     // 创建分类区域
     Object.keys(categories).forEach(category => {
         const categoryDiv = document.createElement('div');
-        categoryDiv.classList.add('category-section');
+        categoryDiv.classList.add('table');
         
         const categoryHeader = document.createElement('h3');
         categoryHeader.textContent = category;
@@ -176,44 +174,6 @@ function loadFood() {
             categoryVisibility[category] = currentState; // 更新状态记录
         });
     });
-
-    // 如果清單不為空，顯示清單
-    if (shoppingItems.length > 0) {
-        const shoppingHeader = document.createElement('h3');
-        shoppingHeader.textContent = '購物清單';
-        shoppingListDiv.appendChild(shoppingHeader);
-
-        const table = document.createElement('table');
-        table.innerHTML = `
-            <tr>
-                <th>名稱</th>
-                <th>數量</th>
-                <th></th>
-            </tr>
-        `;
-
-        shoppingItems.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${item.name}</td>
-                <td>${item.quantity}</td>
-            `;
-
-             // 刪除按鈕
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = '刪除';
-            deleteButton.onclick = () => deleteIngredient(`cart-${item.name}`);
-            const actionCell = document.createElement('td');
-            actionCell.appendChild(deleteButton);
-            row.appendChild(actionCell);
-
-            table.appendChild(row);
-        });
-
-        shoppingListDiv.appendChild(table);
-    } else {
-        shoppingListDiv.textContent = '目前沒有任何購物清單項目。';
-    }
 
     // 显示过期提醒
     Object.keys(expiryWarning).forEach(category => {
@@ -312,10 +272,11 @@ function deleteIngredient(key) {
 function addToCart() {
     const cartName = document.getElementById("cartName").value.trim();
     const cartQuantity = document.getElementById("cartQuantity").value.trim();
-    
+    const cartPopupBox = document.getElementById('cartPopupBox');
+
     if (cartName && cartQuantity) {
         // 從 Local Storage 讀取購物清單
-        const shoppingItems = JSON.parse(localStorage.getItem('shoppingList')) || [];
+        const shoppingItems = JSON.parse(localStorage.getItem('cart-')) || [];
 
         // 檢查是否已存在此項目
         const existingItem = shoppingItems.find(item => item.name === cartName);
@@ -325,14 +286,15 @@ function addToCart() {
             shoppingItems.push({ name: cartName, quantity: cartQuantity }); // 新增項目
         }
 
-        localStorage.setItem('shoppingList', JSON.stringify(shoppingItems));
-        loadShoppingList();  // 更新顯示購物清單
-
+        localStorage.setItem('cart-', JSON.stringify(shoppingItems));
+        alert(`已將 ${cartName} 添加到購物清單，數量：${cartQuantity}`);
+        
         // 清空表單
         document.getElementById("cartName").value = '';
         document.getElementById("cartQuantity").value = '';
 
-        alert(`已將 ${cartName} 添加到購物清單，數量：${cartQuantity}`);
+        loadShoppingList(); // 更新顯示購物清單
+        cartPopupBox.style.display = 'none'; // 添加完成後關閉懸浮窗
     } else {
         alert("請填寫名稱和數量！");
     }
@@ -341,9 +303,9 @@ function addToCart() {
 // 加載購物清單
 function loadShoppingList() {
     const shoppingListDiv = document.getElementById('shoppingList');
-    shoppingListDiv.innerHTML = '';  // 清空清單
+    shoppingListDiv.innerHTML = ''; // 清空清單
 
-    const shoppingItems = JSON.parse(localStorage.getItem('shoppingList')) || [];
+    const shoppingItems = JSON.parse(localStorage.getItem('cart-')) || []; // 改成 cart-
     
     if (shoppingItems.length > 0) {
         const shoppingHeader = document.createElement('h3');
@@ -359,6 +321,8 @@ function loadShoppingList() {
             </tr>
         `;
 
+        const tbody = table.querySelector('tbody'); // 獲取 tbody
+
         shoppingItems.forEach((item, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -367,14 +331,15 @@ function loadShoppingList() {
             `;
             
             // 刪除按鈕
+            const actionCell = document.createElement('td');
             const deleteButton = document.createElement('button');
             deleteButton.textContent = '刪除';
-            deleteButton.onclick = () => deleteShoppingItem(index);  // 刪除購物清單項目
-            const actionCell = document.createElement('td');
+            deleteButton.classList.add('delete-button'); // 使用更有語意的 class 名稱
+            deleteButton.onclick = () => deleteShoppingItem(index); // 刪除購物清單項目
+
             actionCell.appendChild(deleteButton);
             row.appendChild(actionCell);
-
-            table.appendChild(row);
+            tbody.appendChild(row); // 將行添加到 tbody 中
         });
 
         shoppingListDiv.appendChild(table);
@@ -385,9 +350,9 @@ function loadShoppingList() {
 
 // 刪除購物清單項目
 function deleteShoppingItem(index) {
-    const shoppingItems = JSON.parse(localStorage.getItem('shoppingList')) || [];
+    const shoppingItems = JSON.parse(localStorage.getItem('cart-')) || []; // 改成 cart-
     shoppingItems.splice(index, 1); // 刪除指定的項目
-    localStorage.setItem('shoppingList', JSON.stringify(shoppingItems));
+    localStorage.setItem('cart-', JSON.stringify(shoppingItems)); // 改成 cart-
     loadShoppingList(); // 更新顯示
 }
 //---------------------------------------------------------

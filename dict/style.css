@@ -45,7 +45,7 @@ nav a:hover {
     background-color: #ddd;
 }
 
-/* 左側提醒區 */
+/* 提醒區 */
 .warning {
     background-color: #f28482;
     color: #000;
@@ -59,7 +59,7 @@ nav a:hover {
     margin: 0 0 10px;
 }
 
-/* 右側食材表格 */
+/* 食材表格 */
 .table-container {
     display: flex;
     flex-direction: column;
@@ -131,18 +131,26 @@ button {
 #showBoxButton, #showCartButton {
     height: 50px;
     width: 50px;
-    background-color: #3353ac;
+    background-color: #5775cf;
     color: white;
     border: none;
     border-radius: 100px;
     cursor: pointer;
+
+    /* 居中對齊 */
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+
+    font-size: 18px; /* 調整字型大小 */
+    text-align: center;
 }
 
 #buttons-container:hover {
     background-color: #576CA8;
 }
 
-#addButton, #closeButton{
+#closeCartButton, #addCartButton, #addButton, #closeButton{
     padding: 10px 20px;
     background-color: #576CA8;
     color: white;
@@ -184,17 +192,17 @@ th:nth-child(3) { width: 120px; } /* 第三欄固定120px */
 th:nth-child(4) { width: 100px; } /* 第四欄固定100px */
 th:nth-child(5) { width: 50px; }  /* 第五欄固定80px */
 
-.category-section th, .category-section td {
+.table th, .table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
-.category-section th {
+.table th {
     background-color: #f4f4f4;
 }
 
-.category-section td button {
+.table td button {
     background-color: #ff6f61;
     color: white;
     border: none;
@@ -203,7 +211,7 @@ th:nth-child(5) { width: 50px; }  /* 第五欄固定80px */
     cursor: pointer;
 }
 
-.category-section td button:hover {
+.table td button:hover {
     background-color: #ff4b3a;
 }
 

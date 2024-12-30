@@ -35,11 +35,14 @@
             <button id="showCartButton">🛒</button>
         </div>
 
-        <h3>待購買食材</h3>
-        <ul id="shoppingList">
-            <!-- 項目將通過 JS 動態插入 -->
-        </ul>
-  
+        <div class="table-container">
+            <table id="shoppingListTable">
+                <tbody id="shoppingList">
+                    <!-- 項目將通過 JS 動態插入 -->
+                </tbody>
+            </table>
+        </div>
+        
         <div id="popupBox" class="popup-box">
             <div class="popup-content">
                 <div class="modal-body">
@@ -75,14 +78,11 @@
                         <input type="number" id="cartQuantity" min="1" required><br>
                     </div>
                     <button type="submit" id="addCartButton">添加</button>
-                    <button type="button" onclick="closeCartPopup()">關閉</button>
+                    <button type="button" id="closeCartButton">關閉</button>
                 </form>
             </div>
         </div>
     </div>
-
-    
-    
 
     <div id="recipes" class="content hidden">
         <h2>食譜</h2>
