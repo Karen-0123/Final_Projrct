@@ -12,30 +12,29 @@
     <header>
         <h1>虛擬冰箱</h1>
     </header>
+
     <nav>
         <a href="#" id="nav-fridge">冰箱</a>
         <a href="#" id="nav-recipes">食譜</a>
     </nav>
+
+    <button id="showBoxButton">+</button>
+    <button id="showCartButton">🛒</button>
+
     <div id="fridge" class="content">
-        <!-- 左側過期提醒 -->
-        <div class="warning">
-        </div>   
-         <!-- 右側食材表格 -->
+        <!-- 過期提醒 -->
+        <div class="warning"></div>  
+
+         <!-- 食材表格 -->
         <div class="table-container">
             <h2>食材列表</h2>
             <table>
-                <div id="ingredient-table">
-                </div>
+                <div id="ingredient-table"></div>
             </table>
         </div>
 
         <h3>待購買食材</h3>
         <ul id="shoppingList"></ul>
-        
-        <div id="buttons-container">
-            <button id="showBoxButton">+</button>
-            <button id="showCartButton">🛒</button>
-        </div>
   
         <div id="popupBox" class="popup-box">
             <div class="popup-content">
@@ -60,19 +59,19 @@
                 <button id="closeButton">關閉</button>
             </div>
         </div>
-    </div>
 
-    <div id="cartPopupBox" class="popup-box">
-        <div class="popup-content">
-            <div class="modal-body">
-                <label for="cartName">名稱：</label>
-                <input type="text" id="cartName" required><br>
-
-                <label for="cartQuantity">數量：</label>
-                <input type="number" id="cartQuantity" required><br>
+        <div id="cartPopupBox" class="popup-box">
+            <div class="popup-content">
+                <div class="modal-body">
+                    <label for="cartName">名稱：</label>
+                    <input type="text" id="cartName" required><br>
+    
+                    <label for="cartQuantity">數量：</label>
+                    <input type="number" id="cartQuantity" required><br>
+                </div>
+                <button id="addCartButton" onclick="addToCart()">添加</button>
+                <button onclick="document.getElementById('cartPopupBox').style.display='none'">關閉</button>
             </div>
-            <button id="addCartButton" onclick="addToCart()">添加</button>
-            <button id="closeCartButton">關閉</button>
         </div>
     </div>
 
@@ -87,7 +86,6 @@
         </div>
     </div> 
 
-    <!--<script type="module" src="js/main.js"></script> -->
     <script src="script.js"></script>
 </body>
 </html>

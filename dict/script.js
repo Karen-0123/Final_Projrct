@@ -91,10 +91,6 @@ function loadFood() {
                 console.warn(`無效的 food 資料:`, food);
             }
         }
-        // if (key.startsWith('food-')) {
-        //     const food = JSON.parse(localStorage.getItem(key));
-        //     categories[food.category].push(food); // 根据分类将食材加入相应的类别数组
-        // }
     }
 
     // 统计即将过期的食材数量
@@ -177,6 +173,41 @@ function loadFood() {
             categoryVisibility[category] = currentState; // 更新状态记录
         });
     });
+
+    // 購物清單的處理
+    if (shoppingItems.length > 0) {
+        const shoppingHeader = document.createElement('h3');
+        shoppingHeader.textContent = '購物清單';
+        shoppingListDiv.appendChild(shoppingHeader);
+
+        const table = document.createElement('table');
+        table.innerHTML = `
+            <tr>
+                <th>名稱</th>
+                <th>數量</th>
+                <th></th>
+            </tr>
+        `;
+
+        shoppingItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+            `;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '刪除';
+            deleteButton.onclick = () => deleteIngredient(`cart-${item.name}`);
+            const actionCell = document.createElement('td');
+            actionCell.appendChild(deleteButton);
+            row.appendChild(actionCell);
+
+            table.appendChild(row);
+        });
+
+        shoppingListDiv.appendChild(table);
+    }
 
     // 显示过期提醒
     Object.keys(expiryWarning).forEach(category => {
@@ -276,59 +307,19 @@ function addToCart() {
     const quantity = document.getElementById('cartQuantity').value;
 
     if (name && quantity) {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${name} (${quantity})`;
-        shoppingList.appendChild(listItem);
-
-        // 清空輸入框
-        document.getElementById('cartName').value = '';
-        document.getElementById('cartQuantity').value = '';
-
-        cartPopupBox.style.display = 'none'; // 關閉彈出框
+        const key = `cart-${name}`;
+        const item = { name, quantity };
+        localStorage.setItem(key, JSON.stringify(item));
+        loadFood(); // 更新畫面
     } else {
         alert('請填寫所有欄位');
     }
 }
-//--------------------------------------------------------
-//recipes.js //功能和fetchRecipes重複
-// function loadRecipes() {
-//     const recipeList = document.getElementById('recipe-list');
-
-//     // 假設你的 JSON 文件路徑統一在 "./icook/" 目錄
-    
-//     //fetch('./icook/recipe.json')// JSON 文件可以合併為一個或多個
-//     fetch('http://localhost:8000/icook/recipe.json')
-//         .then(response => response.json())
-//         .then(data => {
-//             recipeList.innerHTML = ''; // 清空列表
-
-//             data.forEach(recipe => {
-//                 // 創建食譜卡片
-//                 const recipeItem = document.createElement('li');
-//                 recipeItem.className = 'recipe-card';
-
-//                 recipeItem.innerHTML = `
-//                     <h3>${recipe.RecipeName}</h3>
-//                     <a href="${recipe.Url}" target="_blank">
-//                         <img src="${recipe.Image}" alt="${recipe.RecipeName}">
-//                     </a>
-//                     <p>${recipe.RecipeDetail}</p>
-//                     <ul>
-//                         ${recipe.Ingredients.map(ing => `<li>${ing.name}: ${ing.quantity}</li>`).join('')}
-//                     </ul>
-//                 `;
-//                 recipeList.appendChild(recipeItem);
-//             });
-//         })
-//         .catch(err => console.error('載入食譜失敗', err));
-// }
 //---------------------------------------------------------
 //main.js
 window.onload = function () { // 頁面載入時執行
     loadFood();  // 載入食材
-    //fetchRecipes(); // 載入食譜
     fetchRecipesFromFridge();
-    //loadRecipes(); // 載入食譜
 };
 //---------------------------------------------------------
 //recipes.js
